@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoTrader Pro - Quantum Coin (QTC)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --border: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .balance {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+        
+        /* Coin Info Card */
+        .coin-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+        
+        .coin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .coin-identity {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .coin-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .coin-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .coin-symbol {
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+        
+        .price-section {
+            text-align: right;
+        }
+        
+        .current-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .price-change {
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .positive {
+            color: var(--success);
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+        
+        .negative {
+            color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+        
+        /* Trading Chart */
+        .chart-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .chart-timeframe {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .timeframe-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .timeframe-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: calc(100% - 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--gray);
+        }
+        
+        .chart-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+        
+        /* Order Form */
+        .order-form-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+        
+        .form-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .order-type {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .order-type-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .order-type-btn.buy {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .order-type-btn.sell {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .order-type-btn.active {
+            color: white;
+        }
+        
+        .order-type-btn.buy.active {
+            background-color: var(--success);
+        }
+        
+        .order-type-btn.sell.active {
+            background-color: var(--danger);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .input-with-unit {
+            position: relative;
+        }
+        
+        .input-with-unit input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 1rem;
+        }
+        
+        .unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-weight: 600;
+        }
+        
+        .amount-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .amount-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .amount-btn:hover {
+            background-color: #f9fafb;
+        }
+        
+        .order-summary {
+            background-color: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .total-row {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .submit-order {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .submit-order.buy {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .submit-order.sell {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .submit-order:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Recent Trades */
+        .trades-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+        
+        .trades-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .trades-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .trades-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .trades-table th {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--gray);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .trades-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .trade-buy {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .trade-sell {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        /* User Orders */
+        .orders-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+        
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .orders-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .orders-table th {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--gray);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .orders-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .cancel-order {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--danger);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .price-update {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .coin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .price-section {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>CryptoTrader Pro</h1>
+            </div>
+            <div class="user-info">
+                <div class="balance">Balance: $<span id="userBalance">10,245.36</span></div>
+                <div class="balance">QTC: <span id="userQTC">15.42</span></div>
+                <div class="user-avatar">JD</div>
+            </div>
+        </header>
+        
+        <div class="main-layout">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Coin Info -->
+                <div class="coin-card">
+                    <div class="coin-header">
+                        <div class="coin-identity">
+                            <div class="coin-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <div class="coin-name" id="coinName">Quantum Coin</div>
+                                <div class="coin-symbol" id="coinSymbol">QTC</div>
+                            </div>
+                        </div>
+                        <div class="price-section">
+                            <div class="current-price" id="currentPrice">$342.18</div>
+                            <div class="price-change positive" id="priceChange">+2.45%</div>
+                        </div>
+                    </div>
+                    <div class="coin-stats">
+                        <div>24h High: <strong id="highPrice">$348.92</strong></div>
+                        <div>24h Low: <strong id="lowPrice">$332.15</strong></div>
+                        <div>24h Volume: <strong id="volume">1,245,832 QTC</strong></div>
+                    </div>
+                </div>
+                
+                <!-- Trading Chart -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">QTC/USD Chart</div>
+                        <div class="chart-timeframe">
+                            <button class="timeframe-btn active">1H</button>
+                            <button class="timeframe-btn">1D</button>
+                            <button class="timeframe-btn">1W</button>
+                            <button class="timeframe-btn">1M</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Live price chart simulation</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Price updates every 5 seconds</p>
+                    </div>
+                </div>
+                
+                <!-- Recent Trades -->
+                <div class="trades-container">
+                    <div class="trades-header">
+                        <div class="trades-title">Recent Trades</div>
+                        <div><button id="refreshTrades" style="background: none; border: none; cursor: pointer; color: var(--primary);"><i class="fas fa-sync-alt"></i> Refresh</button></div>
+                    </div>
+                    <table class="trades-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentTrades">
+                            <!-- Trades will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Order Form -->
+                <div class="order-form-container">
+                    <div class="form-title">Place Order</div>
+                    
+                    <div class="order-type">
+                        <div class="order-type-btn buy active" id="buyBtn">Buy QTC</div>
+                        <div class="order-type-btn sell" id="sellBtn">Sell QTC</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="orderPrice">Price (USD)</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="orderPrice" step="0.01" value="342.18">
+                            <div class="unit">USD</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="orderAmount">Amount (QTC)</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="orderAmount" step="0.01" value="0.5">
+                            <div class="unit">QTC</div>
+                        </div>
+                        <div class="amount-controls">
+                            <button class="amount-btn" data-action="0.1">0.1</button>
+                            <button class="amount-btn" data-action="0.5">0.5</button>
+                            <button class="amount-btn" data-action="1">1.0</button>
+                            <button class="amount-btn" data-action="5">5.0</button>
+                            <button class="amount-btn" data-action="max">Max</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Total Cost</span>
+                            <span id="totalCost">$171.09</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Trading Fee (0.1%)</span>
+                            <span id="tradingFee">$0.17</span>
+                        </div>
+                        <div class="summary-row total-row">
+                            <span>Total</span>
+                            <span id="orderTotal">$171.26</span>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-order buy" id="placeOrderBtn">Place Buy Order</button>
+                </div>
+                
+                <!-- User Orders -->
+                <div class="orders-container">
+                    <div class="orders-header">
+                        <div class="orders-title">Your Open Orders</div>
+                        <div><button id="refreshOrders" style="background: none; border: none; cursor: pointer; color: var(--primary);"><i class="fas fa-sync-alt"></i></button></div>
+                    </div>
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userOrders">
+                            <!-- Orders will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <p>CryptoTrader Pro - Simulated Trading Platform | Quantum Coin (QTC) is a simulated cryptocurrency</p>
+            <p style="margin-top: 10px;">Prices update randomly every 5 seconds. This is a demonstration only.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initial Data
+        let coinData = {
+            name: "Quantum Coin",
+            symbol: "QTC",
+            price: 342.18,
+            change: 2.45,
+            isPositive: true,
+            high: 348.92,
+            low: 332.15,
+            volume: "1,245,832"
+        };
+        
+        let userData = {
+            balance: 10245.36,
+            qtc: 15.42
+        };
+        
+        let orderType = "buy"; // "buy" or "sell"
+        let orders = [
+            {id: 1, type: "buy", price: 340.50, amount: 2.5, total: 851.25, time: "10:23:15"},
+            {id: 2, type: "sell", price: 345.00, amount: 1.2, total: 414.00, time: "10:45:30"},
+            {id: 3, type: "buy", price: 341.80, amount: 3.0, total: 1025.40, time: "11:12:45"}
+        ];
+        
+        let recentTrades = [
+            {type: "buy", price: 342.25, amount: 1.5, total: 513.38, time: "12:01:22"},
+            {type: "sell", price: 342.10, amount: 0.8, total: 273.68, time: "12:00:45"},
+            {type: "buy", price: 342.50, amount: 2.2, total: 753.50, time: "11:59:12"},
+            {type: "sell", price: 341.90, amount: 1.1, total: 376.09, time: "11:58:33"},
+            {type: "buy", price: 342.00, amount: 0.5, total: 171.00, time: "11:57:45"},
+            {type: "sell", price: 341.75, amount: 3.0, total: 1025.25, time: "11:56:20"},
+            {type: "buy", price: 341.50, amount: 1.8, total: 614.70, time: "11:55:10"}
+        ];
+        
+        // DOM Elements
+        const coinNameEl = document.getElementById('coinName');
+        const coinSymbolEl = document.getElementById('coinSymbol');
+        const currentPriceEl = document.getElementById('currentPrice');
+        const priceChangeEl = document.getElementById('priceChange');
+        const highPriceEl = document.getElementById('highPrice');
+        const lowPriceEl = document.getElementById('lowPrice');
+        const volumeEl = document.getElementById('volume');
+        const userBalanceEl = document.getElementById('userBalance');
+        const userQTCEl = document.getElementById('userQTC');
+        const buyBtn = document.getElementById('buyBtn');
+        const sellBtn = document.getElementById('sellBtn');
+        const placeOrderBtn = document.getElementById('placeOrderBtn');
+        const orderPriceEl = document.getElementById('orderPrice');
+        const orderAmountEl = document.getElementById('orderAmount');
+        const totalCostEl = document.getElementById('totalCost');
+        const tradingFeeEl = document.getElementById('tradingFee');
+        const orderTotalEl = document.getElementById('orderTotal');
+        const recentTradesEl = document.getElementById('recentTrades');
+        const userOrdersEl = document.getElementById('userOrders');
+        const refreshTradesBtn = document.getElementById('refreshTrades');
+        const refreshOrdersBtn = document.getElementById('refreshOrders');
+        const amountButtons = document.querySelectorAll('.amount-btn');
+        
+        // Initialize the page
+        function initPage() {
+            updateCoinDisplay();
+            updateUserBalance();
+            updateRecentTrades();
+            updateUserOrders();
+            calculateOrderTotal();
+            
+            // Set up event listeners
+            buyBtn.addEventListener('click', () => setOrderType('buy'));
+            sellBtn.addEventListener('click', () => setOrderType('sell'));
+            orderPriceEl.addEventListener('input', calculateOrderTotal);
+            orderAmountEl.addEventListener('input', calculateOrderTotal);
+            placeOrderBtn.addEventListener('click', placeOrder);
+            refreshTradesBtn.addEventListener('click', updateRecentTrades);
+            refreshOrdersBtn.addEventListener('click', updateUserOrders);
+            
+            // Amount buttons
+            amountButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    if (action === 'max') {
+                        if (orderType === 'buy') {
+                            const maxAmount = userData.balance / coinData.price * 0.99; // 1% buffer
+                            orderAmountEl.value = maxAmount.toFixed(2);
+                        } else {
+                            orderAmountEl.value = userData.qtc.toFixed(2);
+                        }
+                    } else {
+                        orderAmountEl.value = action;
+                    }
+                    calculateOrderTotal();
+                });
+            });
+            
+            // Start price updates
+            setInterval(updatePrice, 5000);
+            
+            // Simulate random trades
+            setInterval(simulateRandomTrade, 8000);
+        }
+        
+        // Update coin price display
+        function updateCoinDisplay() {
+            coinNameEl.textContent = coinData.name;
+            coinSymbolEl.textContent = coinData.symbol;
+            currentPriceEl.textContent = `$${coinData.price.toFixed(2)}`;
+            
+            // Add animation for price change
+            currentPriceEl.classList.add('price-update');
+            setTimeout(() => currentPriceEl.classList.remove('price-update'), 500);
+            
+            const changeSign = coinData.isPositive ? '+' : '';
+            priceChangeEl.textContent = `${changeSign}${coinData.change.toFixed(2)}%`;
+            priceChangeEl.className = `price-change ${coinData.isPositive ? 'positive' : 'negative'}`;
+            
+            highPriceEl.textContent = `$${coinData.high.toFixed(2)}`;
+            lowPriceEl.textContent = `$${coinData.low.toFixed(2)}`;
+            volumeEl.textContent = `${coinData.volume} QTC`;
+            
+            // Update order price to match current price
+            orderPriceEl.value = coinData.price.toFixed(2);
+        }
+        
+        // Update user balance display
+        function updateUserBalance() {
+            userBalanceEl.textContent = userData.balance.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            
+            userQTCEl.textContent = userData.qtc.toFixed(2);
+        }
+        
+        // Set order type (buy/sell)
+        function setOrderType(type) {
+            orderType = type;
+            
+            if (type === 'buy') {
+                buyBtn.classList.add('active');
+                sellBtn.classList.remove('active');
+                placeOrderBtn.textContent = 'Place Buy Order';
+                placeOrderBtn.className = 'submit-order buy';
+            } else {
+                buyBtn.classList.remove('active');
+                sellBtn.classList.add('active');
+                placeOrderBtn.textContent = 'Place Sell Order';
+                placeOrderBtn.className = 'submit-order sell';
+            }
+            
+            calculateOrderTotal();
+        }
+        
+        // Calculate order total
+        function calculateOrderTotal() {
+            const price = parseFloat(orderPriceEl.value) || 0;
+            const amount = parseFloat(orderAmountEl.value) || 0;
+            const totalCost = price * amount;
+            const fee = totalCost * 0.001; // 0.1% trading fee
+            const total = orderType === 'buy' ? totalCost + fee : totalCost - fee;
+            
+            totalCostEl.textContent = `$${totalCost.toFixed(2)}`;
+            tradingFeeEl.textContent = `$${fee.toFixed(2)}`;
+            orderTotalEl.textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Place an order
+        function placeOrder() {
+            const price = parseFloat(orderPriceEl.value);
+            const amount = parseFloat(orderAmountEl.value);
+            
+            if (!price || price <= 0) {
+                alert('Please enter a valid price');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            const totalCost = price * amount;
+            const fee = totalCost * 0.001;
+            const total = orderType === 'buy' ? totalCost + fee : totalCost - fee;
+            
+            if (orderType === 'buy') {
+                if (total > userData.balance) {
+                    alert('Insufficient balance');
+                    return;
+                }
+                
+                userData.balance -= total;
+                // QTC will be added when order is filled (simulated)
+            } else {
+                if (amount > userData.qtc) {
+                    alert('Insufficient QTC balance');
+                    return;
+                }
+                
+                // QTC will be deducted when order is filled (simulated)
+                // User will receive USD when order is filled
+            }
+            
+            // Add to orders
+            const newOrder = {
+                id: orders.length + 1,
+                type: orderType,
+                price: price,
+                amount: amount,
+                total: totalCost,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})
+            };
+            
+            orders.unshift(newOrder); // Add to beginning
+            updateUserOrders();
+            updateUserBalance();
+            
+            // Add to recent trades (simulating immediate execution for demo)
+            const newTrade = {
+                type: orderType,
+                price: price,
+                amount: amount,
+                total: totalCost,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})
+            };
+            
+            recentTrades.unshift(newTrade);
+            if (recentTrades.length > 15) recentTrades.pop();
+            updateRecentTrades();
+            
+            // Show success message
+            alert(`${orderType === 'buy' ? 'Buy' : 'Sell'} order placed for ${amount} QTC at $${price.toFixed(2)} each`);
+            
+            // Reset form to current price
+            orderPriceEl.value = coinData.price.toFixed(2);
+            orderAmountEl.value = "0.5";
+            calculateOrderTotal();
+        }
+        
+        // Update recent trades table
+        function updateRecentTrades() {
+            recentTradesEl.innerHTML = '';
+            
+            // Show only last 10 trades
+            const tradesToShow = recentTrades.slice(0, 10);
+            
+            tradesToShow.forEach(trade => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${trade.time}</td>
+                    <td><span class="trade-${trade.type}">${trade.type === 'buy' ? 'BUY' : 'SELL'}</span></td>
+                    <td>$${trade.price.toFixed(2)}</td>
+                    <td>${trade.amount.toFixed(2)} QTC</td>
+                    <td>$${trade.total.toFixed(2)}</td>
+                `;
+                
+                // Color coding
+                const typeCell = row.querySelector(`.trade-${trade.type}`);
+                typeCell.className = trade.type === 'buy' ? 'trade-buy' : 'trade-sell';
+                
+                recentTradesEl.appendChild(row);
+            });
+        }
+        
+        // Update user orders table
+        function updateUserOrders() {
+            userOrdersEl.innerHTML = '';
+            
+            if (orders.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="5" style="text-align: center; padding: 20px; color: var(--gray);">No open orders</td>`;
+                userOrdersEl.appendChild(row);
+                return;
+            }
+            
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><span class="trade-${order.type}">${order.type === 'buy' ? 'BUY' : 'SELL'}</span></td>
+                    <td>$${order.price.toFixed(2)}</td>
+                    <td>${order.amount.toFixed(2)} QTC</td>
+                    <td>$${order.total.toFixed(2)}</td>
+                    <td><button class="cancel-order" data-id="${order.id}">Cancel</button></td>
+                `;
+                
+                // Color coding
+                const typeCell = row.querySelector(`.trade-${order.type}`);
+                typeCell.className = order.type === 'buy' ? 'trade-buy' : 'trade-sell';
+                
+                userOrdersEl.appendChild(row);
+            });
+            
+            // Add event listeners to cancel buttons
+            document.querySelectorAll('.cancel-order').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderId = parseInt(this.getAttribute('data-id'));
+                    cancelOrder(orderId);
+                });
+            });
+        }
+        
+        // Cancel an order
+        function cancelOrder(orderId) {
+            const orderIndex = orders.findIndex(o => o.id === orderId);
+            
+            if (orderIndex !== -1) {
+                const order = orders[orderIndex];
+                
+                // Return funds if it was a buy order
+                if (order.type === 'buy') {
+                    const fee = order.total * 0.001;
+                    const total = order.total + fee;
+                    userData.balance += total;
+                }
+                
+                orders.splice(orderIndex, 1);
+                updateUserOrders();
+                updateUserBalance();
+                alert(`Order #${orderId} cancelled`);
+            }
+        }
+        
+        // Update price randomly
+        function updatePrice() {
+            // Random price change between -0.5% and +0.5%
+            const changePercent = (Math.random() - 0.5) * 1;
+            const changeAmount = coinData.price * (changePercent / 100);
+            
+            coinData.price += changeAmount;
+            coinData.change = (changePercent * 100).toFixed(2);
+            coinData.isPositive = changePercent >= 0;
+            
+            // Update high/low if needed
+            if (coinData.price > coinData.high) {
+                coinData.high = coinData.price;
+            }
+            if (coinData.price < coinData.low) {
+                coinData.low = coinData.price;
+            }
+            
+            // Random volume change
+            const volumeChange = Math.floor(Math.random() * 10000) - 5000;
+            const currentVolume = parseInt(coinData.volume.replace(/,/g, ''));
+            const newVolume = Math.max(100000, currentVolume + volumeChange);
+            coinData.volume = newVolume.toLocaleString('en-US');
+            
+            updateCoinDisplay();
+            calculateOrderTotal();
+        }
+        
+        // Simulate random trades
+        function simulateRandomTrade() {
+            const type = Math.random() > 0.5 ? 'buy' : 'sell';
+            const price = coinData.price + (Math.random() - 0.5) * 2;
+            const amount = Math.random() * 5 + 0.1; // 0.1 to 5.1 QTC
+            const total = price * amount;
+            
+            const newTrade = {
+                type: type,
+                price: price,
+                amount: amount,
+                total: total,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})
+            };
+            
+            recentTrades.unshift(newTrade);
+            if (recentTrades.length > 15) recentTrades.pop();
+            updateRecentTrades();
+            
+            // Occasionally fill user orders (simulated)
+            if (Math.random() > 0.7 && orders.length > 0) {
+                simulateOrderFill();
+            }
+        }
+        
+        // Simulate an order being filled
+        function simulateOrderFill() {
+            const orderIndex = Math.floor(Math.random() * orders.length);
+            const order = orders[orderIndex];
+            
+            // Check if current price is favorable for order execution
+            let shouldFill = false;
+            
+            if (order.type === 'buy' && coinData.price <= order.price * 1.01) {
+                shouldFill = true;
+            } else if (order.type === 'sell' && coinData.price >= order.price * 0.99) {
+                shouldFill = true;
+            }
+            
+            if (shouldFill) {
+                if (order.type === 'buy') {
+                    userData.qtc += order.amount;
+                    // Fee was already deducted when order was placed
+                } else {
+                    userData.balance += order.total;
+                    userData.qtc -= order.amount;
+                }
+                
+                // Remove order
+                orders.splice(orderIndex, 1);
+                
+                updateUserOrders();
+                updateUserBalance();
+                
+                // Show notification
+                console.log(`Order #${order.id} filled at market price`);
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
