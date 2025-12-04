@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XOOX Exchange - Trade XOOX Coin</title>
+    <title>XOOX Exchange - Trade XOOX/INR</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -84,19 +84,6 @@
             border-radius: 20px;
             font-weight: 600;
             border: 1px solid var(--border);
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
         }
         
         /* Navigation */
@@ -186,12 +173,6 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 5px;
-        }
-        
-        .current-price-inr {
-            font-size: 1.3rem;
-            color: var(--gray);
-            margin-bottom: 10px;
         }
         
         .price-change {
@@ -858,7 +839,6 @@
             <div class="user-info">
                 <div class="balance">INR Balance: ₹<span id="userINRBalance">1,25,245.36</span></div>
                 <div class="balance">XOOX Balance: <span id="userXOOXBalance">15.42</span></div>
-                <div class="user-avatar" id="userAvatar">JD</div>
             </div>
         </header>
         
@@ -886,14 +866,13 @@
                                 </div>
                             </div>
                             <div class="price-section">
-                                <div class="current-price" id="currentPrice">$342.18</div>
-                                <div class="current-price-inr" id="currentPriceINR">₹28,542.15</div>
+                                <div class="current-price" id="currentPrice">₹28,542.15</div>
                                 <div class="price-change positive" id="priceChange">+2.45%</div>
                             </div>
                         </div>
                         <div class="coin-stats">
-                            <div>24h High: <strong id="highPrice">$348.92</strong></div>
-                            <div>24h Low: <strong id="lowPrice">$332.15</strong></div>
+                            <div>24h High: <strong id="highPrice">₹29,045.82</strong></div>
+                            <div>24h Low: <strong id="lowPrice">₹27,724.53</strong></div>
                             <div>24h Volume: <strong id="volume">1,245,832 XOOX</strong></div>
                         </div>
                     </div>
@@ -901,7 +880,7 @@
                     <!-- Trading Chart -->
                     <div class="chart-container">
                         <div class="chart-header">
-                            <div class="chart-title">XOOX/USD Chart</div>
+                            <div class="chart-title">XOOX/INR Chart</div>
                             <div class="chart-timeframe">
                                 <button class="timeframe-btn active" data-timeframe="1h">1H</button>
                                 <button class="timeframe-btn" data-timeframe="1d">1D</button>
@@ -925,9 +904,9 @@
                                 <tr>
                                     <th>Time</th>
                                     <th>Type</th>
-                                    <th>Price (USD)</th>
+                                    <th>Price (INR)</th>
                                     <th>Amount</th>
-                                    <th>Total</th>
+                                    <th>Total (INR)</th>
                                 </tr>
                             </thead>
                             <tbody id="recentTrades">
@@ -949,10 +928,10 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="orderPrice">Price (USD)</label>
+                            <label for="orderPrice">Price (INR)</label>
                             <div class="input-with-unit">
-                                <input type="number" id="orderPrice" step="0.01" value="342.18">
-                                <div class="unit">USD</div>
+                                <input type="number" id="orderPrice" step="0.01" value="28542.15">
+                                <div class="unit">₹</div>
                             </div>
                         </div>
                         
@@ -974,19 +953,15 @@
                         <div class="order-summary">
                             <div class="summary-row">
                                 <span>Total Cost</span>
-                                <span id="totalCost">$171.09</span>
-                            </div>
-                            <div class="summary-row">
-                                <span>INR Equivalent</span>
-                                <span id="inrEquivalent">₹14,271.25</span>
+                                <span id="totalCost">₹14,271.08</span>
                             </div>
                             <div class="summary-row">
                                 <span>Trading Fee (0.1%)</span>
-                                <span id="tradingFee">$0.17</span>
+                                <span id="tradingFee">₹14.27</span>
                             </div>
                             <div class="summary-row total-row">
                                 <span>Total</span>
-                                <span id="orderTotal">$171.26</span>
+                                <span id="orderTotal">₹14,285.35</span>
                             </div>
                         </div>
                         
@@ -1003,9 +978,9 @@
                             <thead>
                                 <tr>
                                     <th>Type</th>
-                                    <th>Price</th>
+                                    <th>Price (INR)</th>
                                     <th>Amount</th>
-                                    <th>Total</th>
+                                    <th>Total (INR)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -1036,11 +1011,11 @@
                         <div class="balance-card">
                             <h3>XOOX Balance</h3>
                             <div class="balance-amount" id="walletXOOXBalance">15.42 XOOX</div>
-                            <div class="balance-equivalent" id="walletXOOXValue">≈ $5,271.25</div>
+                            <div class="balance-equivalent" id="walletXOOXValue">≈ ₹4,40,000.00</div>
                         </div>
                         <div class="balance-card">
                             <h3>Total Value (INR)</h3>
-                            <div class="balance-amount" id="walletTotalINR">₹4,38,245.36</div>
+                            <div class="balance-amount" id="walletTotalINR">₹5,65,245.36</div>
                             <div class="balance-equivalent">Includes XOOX + INR Balance</div>
                         </div>
                     </div>
@@ -1050,7 +1025,7 @@
                         <div class="wallet-action">
                             <h3>Deposit XOOX</h3>
                             <div id="xoxAddressSection" style="display: none;">
-                                <div class="address-display" id="xoxAddress">XOOX0000000000000000000000000000000000000000</div>
+                                <div class="address-display" id="xoxAddress">XOOXga92ehscuw78duiwd13dwgd9k2jns82nsk29sn</div>
                                 <div class="qr-code">
                                     <i class="fas fa-qrcode"></i>
                                 </div>
@@ -1064,7 +1039,7 @@
                         <div class="wallet-action">
                             <h3>Withdraw XOOX</h3>
                             <div class="withdraw-form">
-                                <input type="text" id="withdrawXOXAddress" placeholder="Recipient XOOX Address">
+                                <input type="text" id="withdrawXOXAddress" placeholder="Recipient XOOX Address (starts with XOOX)">
                                 <input type="number" id="withdrawXOXAmount" placeholder="Amount (XOOX)" step="0.01" min="0.01">
                                 <button class="withdraw-btn" id="withdrawXOXBtn">Withdraw XOOX</button>
                             </div>
@@ -1079,11 +1054,11 @@
                         <div class="balance-card">
                             <h3>INR Balance</h3>
                             <div class="balance-amount" id="walletINRBalance">₹1,25,245.36</div>
-                            <div class="balance-equivalent">≈ $1,502.94</div>
+                            <div class="balance-equivalent">Available for trading</div>
                         </div>
                         <div class="balance-card">
                             <h3>Total Crypto Value</h3>
-                            <div class="balance-amount" id="walletCryptoValue">₹3,13,000.00</div>
+                            <div class="balance-amount" id="walletCryptoValue">₹4,40,000.00</div>
                             <div class="balance-equivalent">15.42 XOOX</div>
                         </div>
                     </div>
@@ -1142,7 +1117,7 @@
         
         <!-- Footer -->
         <footer>
-            <p>XOOX Exchange - Trade XOOX Coin | XOOX/USD Trading | Prices in USD and INR</p>
+            <p>XOOX Exchange - Trade XOOX/INR | India's Premier Cryptocurrency Exchange</p>
             <p style="margin-top: 10px;">This is a simulated trading platform for demonstration purposes only.</p>
         </footer>
     </div>
@@ -1152,17 +1127,15 @@
         let coinData = {
             name: "XOOX Coin",
             symbol: "XOOX",
-            price: 342.18,
+            price: 28542.15,
             change: 2.45,
             isPositive: true,
-            high: 348.92,
-            low: 332.15,
-            volume: "1,245,832",
-            inrPrice: 28542.15
+            high: 29045.82,
+            low: 27724.53,
+            volume: "1,245,832"
         };
         
         let userData = {
-            balance: 10245.36,
             inrBalance: 125245.36,
             xox: 15.42,
             xoxAddress: null
@@ -1170,19 +1143,19 @@
         
         let orderType = "buy"; // "buy" or "sell"
         let orders = [
-            {id: 1, type: "buy", price: 340.50, amount: 2.5, total: 851.25, time: "10:23:15"},
-            {id: 2, type: "sell", price: 345.00, amount: 1.2, total: 414.00, time: "10:45:30"},
-            {id: 3, type: "buy", price: 341.80, amount: 3.0, total: 1025.40, time: "11:12:45"}
+            {id: 1, type: "buy", price: 28420.50, amount: 2.5, total: 71051.25, time: "10:23:15"},
+            {id: 2, type: "sell", price: 28780.00, amount: 1.2, total: 34536.00, time: "10:45:30"},
+            {id: 3, type: "buy", price: 28480.80, amount: 3.0, total: 85442.40, time: "11:12:45"}
         ];
         
         let recentTrades = [
-            {type: "buy", price: 342.25, amount: 1.5, total: 513.38, time: "12:01:22"},
-            {type: "sell", price: 342.10, amount: 0.8, total: 273.68, time: "12:00:45"},
-            {type: "buy", price: 342.50, amount: 2.2, total: 753.50, time: "11:59:12"},
-            {type: "sell", price: 341.90, amount: 1.1, total: 376.09, time: "11:58:33"},
-            {type: "buy", price: 342.00, amount: 0.5, total: 171.00, time: "11:57:45"},
-            {type: "sell", price: 341.75, amount: 3.0, total: 1025.25, time: "11:56:20"},
-            {type: "buy", price: 341.50, amount: 1.8, total: 614.70, time: "11:55:10"}
+            {type: "buy", price: 28542.25, amount: 1.5, total: 42813.38, time: "12:01:22"},
+            {type: "sell", price: 28535.10, amount: 0.8, total: 22828.08, time: "12:00:45"},
+            {type: "buy", price: 28575.50, amount: 2.2, total: 62866.10, time: "11:59:12"},
+            {type: "sell", price: 28518.90, amount: 1.1, total: 31370.79, time: "11:58:33"},
+            {type: "buy", price: 28525.00, amount: 0.5, total: 14262.50, time: "11:57:45"},
+            {type: "sell", price: 28495.75, amount: 3.0, total: 85487.25, time: "11:56:20"},
+            {type: "buy", price: 28465.50, amount: 1.8, total: 51237.90, time: "11:55:10"}
         ];
         
         // Chart data
@@ -1193,7 +1166,6 @@
         const coinNameEl = document.getElementById('coinName');
         const coinSymbolEl = document.getElementById('coinSymbol');
         const currentPriceEl = document.getElementById('currentPrice');
-        const currentPriceINREl = document.getElementById('currentPriceINR');
         const priceChangeEl = document.getElementById('priceChange');
         const highPriceEl = document.getElementById('highPrice');
         const lowPriceEl = document.getElementById('lowPrice');
@@ -1206,7 +1178,6 @@
         const orderPriceEl = document.getElementById('orderPrice');
         const orderAmountEl = document.getElementById('orderAmount');
         const totalCostEl = document.getElementById('totalCost');
-        const inrEquivalentEl = document.getElementById('inrEquivalent');
         const tradingFeeEl = document.getElementById('tradingFee');
         const orderTotalEl = document.getElementById('orderTotal');
         const recentTradesEl = document.getElementById('recentTrades');
@@ -1262,7 +1233,7 @@
                     const action = this.getAttribute('data-action');
                     if (action === 'max') {
                         if (orderType === 'buy') {
-                            const maxAmount = (userData.inrBalance / coinData.inrPrice) * 0.99; // 1% buffer
+                            const maxAmount = userData.inrBalance / coinData.price * 0.99; // 1% buffer
                             orderAmountEl.value = maxAmount.toFixed(2);
                         } else {
                             orderAmountEl.value = userData.xox.toFixed(2);
@@ -1359,14 +1330,14 @@
         // Generate initial price history
         function generatePriceHistory() {
             priceHistory = [];
-            let basePrice = 340;
+            let basePrice = 28400;
             const now = new Date();
             
             for (let i = 100; i >= 0; i--) {
                 const time = new Date(now.getTime() - i * 60000); // 1 minute intervals
-                const change = (Math.random() - 0.5) * 2;
+                const change = (Math.random() - 0.5) * 100;
                 basePrice += change;
-                basePrice = Math.max(330, Math.min(350, basePrice)); // Keep within range
+                basePrice = Math.max(27700, Math.min(29100, basePrice)); // Keep within range
                 
                 priceHistory.push({
                     time: time,
@@ -1375,7 +1346,6 @@
             }
             
             coinData.price = basePrice;
-            coinData.inrPrice = basePrice * 83.5; // Approx USD to INR conversion
         }
         
         // Initialize price chart
@@ -1393,7 +1363,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'XOOX/USD Price',
+                        label: 'XOOX/INR Price',
                         data: data,
                         borderColor: 'rgba(124, 58, 237, 1)',
                         backgroundColor: 'rgba(124, 58, 237, 0.1)',
@@ -1416,7 +1386,7 @@
                             intersect: false,
                             callbacks: {
                                 label: function(context) {
-                                    return `Price: $${context.parsed.y.toFixed(2)}`;
+                                    return `Price: ₹${context.parsed.y.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                                 }
                             }
                         }
@@ -1438,7 +1408,7 @@
                             ticks: {
                                 color: '#94a3b8',
                                 callback: function(value) {
-                                    return '$' + value;
+                                    return '₹' + value.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
                                 }
                             }
                         }
@@ -1454,7 +1424,7 @@
         // Update chart data
         function updateChartData() {
             const now = new Date();
-            const change = (Math.random() - 0.5) * 0.5;
+            const change = (Math.random() - 0.5) * 50;
             coinData.price += change;
             coinData.price = Math.max(coinData.low, Math.min(coinData.high, coinData.price));
             
@@ -1512,8 +1482,7 @@
         function updateCoinDisplay() {
             coinNameEl.textContent = coinData.name;
             coinSymbolEl.textContent = coinData.symbol;
-            currentPriceEl.textContent = `$${coinData.price.toFixed(2)}`;
-            currentPriceINREl.textContent = `₹${coinData.inrPrice.toFixed(2)}`;
+            currentPriceEl.textContent = `₹${coinData.price.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             
             // Add animation for price change
             currentPriceEl.classList.add('price-update');
@@ -1523,8 +1492,8 @@
             priceChangeEl.textContent = `${changeSign}${coinData.change.toFixed(2)}%`;
             priceChangeEl.className = `price-change ${coinData.isPositive ? 'positive' : 'negative'}`;
             
-            highPriceEl.textContent = `$${coinData.high.toFixed(2)}`;
-            lowPriceEl.textContent = `$${coinData.low.toFixed(2)}`;
+            highPriceEl.textContent = `₹${coinData.high.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            lowPriceEl.textContent = `₹${coinData.low.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             volumeEl.textContent = `${coinData.volume} ${coinData.symbol}`;
             
             // Update order price to match current price
@@ -1544,13 +1513,13 @@
         // Update wallet display
         function updateWalletDisplay() {
             walletXOOXBalanceEl.textContent = `${userData.xox.toFixed(2)} XOOX`;
-            walletXOOXValueEl.textContent = `≈ $${(userData.xox * coinData.price).toFixed(2)}`;
+            walletXOOXValueEl.textContent = `≈ ₹${(userData.xox * coinData.price).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             
-            const totalINR = userData.inrBalance + (userData.xox * coinData.inrPrice);
+            const totalINR = userData.inrBalance + (userData.xox * coinData.price);
             walletTotalINREl.textContent = `₹${totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             
             walletINRBalanceEl.textContent = `₹${userData.inrBalance.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            walletCryptoValueEl.textContent = `₹${(userData.xox * coinData.inrPrice).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            walletCryptoValueEl.textContent = `₹${(userData.xox * coinData.price).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         }
         
         // Set order type (buy/sell)
@@ -1577,14 +1546,12 @@
             const price = parseFloat(orderPriceEl.value) || 0;
             const amount = parseFloat(orderAmountEl.value) || 0;
             const totalCost = price * amount;
-            const totalCostINR = totalCost * 83.5; // Approx conversion rate
             const fee = totalCost * 0.001; // 0.1% trading fee
             const total = orderType === 'buy' ? totalCost + fee : totalCost - fee;
             
-            totalCostEl.textContent = `$${totalCost.toFixed(2)}`;
-            inrEquivalentEl.textContent = `₹${totalCostINR.toFixed(2)}`;
-            tradingFeeEl.textContent = `$${fee.toFixed(2)}`;
-            orderTotalEl.textContent = `$${total.toFixed(2)}`;
+            totalCostEl.textContent = `₹${totalCost.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            tradingFeeEl.textContent = `₹${fee.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            orderTotalEl.textContent = `₹${total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         }
         
         // Place an order
@@ -1603,18 +1570,16 @@
             }
             
             const totalCost = price * amount;
-            const totalCostINR = totalCost * 83.5;
             const fee = totalCost * 0.001;
             const total = orderType === 'buy' ? totalCost + fee : totalCost - fee;
-            const totalINR = total * 83.5;
             
             if (orderType === 'buy') {
-                if (totalINR > userData.inrBalance) {
+                if (total > userData.inrBalance) {
                     alert('Insufficient INR balance');
                     return;
                 }
                 
-                userData.inrBalance -= totalINR;
+                userData.inrBalance -= total;
                 // XOOX will be added when order is filled (simulated)
             } else {
                 if (amount > userData.xox) {
@@ -1655,7 +1620,7 @@
             updateRecentTrades();
             
             // Show success message
-            alert(`${orderType === 'buy' ? 'Buy' : 'Sell'} order placed for ${amount} XOOX at $${price.toFixed(2)} each`);
+            alert(`${orderType === 'buy' ? 'Buy' : 'Sell'} order placed for ${amount} XOOX at ₹${price.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})} each`);
             
             // Reset form to current price
             orderPriceEl.value = coinData.price.toFixed(2);
@@ -1675,9 +1640,9 @@
                 row.innerHTML = `
                     <td>${trade.time}</td>
                     <td><span class="trade-${trade.type}">${trade.type === 'buy' ? 'BUY' : 'SELL'}</span></td>
-                    <td>$${trade.price.toFixed(2)}</td>
+                    <td>₹${trade.price.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td>${trade.amount.toFixed(2)} XOOX</td>
-                    <td>$${trade.total.toFixed(2)}</td>
+                    <td>₹${trade.total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                 `;
                 
                 // Color coding
@@ -1703,9 +1668,9 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td><span class="trade-${order.type}">${order.type === 'buy' ? 'BUY' : 'SELL'}</span></td>
-                    <td>$${order.price.toFixed(2)}</td>
+                    <td>₹${order.price.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td>${order.amount.toFixed(2)} XOOX</td>
-                    <td>$${order.total.toFixed(2)}</td>
+                    <td>₹${order.total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td><button class="cancel-order" data-id="${order.id}">Cancel</button></td>
                 `;
                 
@@ -1736,8 +1701,7 @@
                 if (order.type === 'buy') {
                     const fee = order.total * 0.001;
                     const total = order.total + fee;
-                    const totalINR = total * 83.5;
-                    userData.inrBalance += totalINR;
+                    userData.inrBalance += total;
                 }
                 
                 orders.splice(orderIndex, 1);
@@ -1755,7 +1719,6 @@
             const changeAmount = coinData.price * (changePercent / 100);
             
             coinData.price += changeAmount;
-            coinData.inrPrice = coinData.price * 83.5;
             coinData.change = (changePercent * 100).toFixed(2);
             coinData.isPositive = changePercent >= 0;
             
@@ -1781,7 +1744,7 @@
         // Simulate random trades
         function simulateRandomTrade() {
             const type = Math.random() > 0.5 ? 'buy' : 'sell';
-            const price = coinData.price + (Math.random() - 0.5) * 2;
+            const price = coinData.price + (Math.random() - 0.5) * 200;
             const amount = Math.random() * 5 + 0.1; // 0.1 to 5.1 XOOX
             const total = price * amount;
             
@@ -1822,8 +1785,7 @@
                     userData.xox += order.amount;
                     // Fee was already deducted when order was placed
                 } else {
-                    const totalINR = order.total * 83.5;
-                    userData.inrBalance += totalINR;
+                    userData.inrBalance += order.total;
                     userData.xox -= order.amount;
                 }
                 
@@ -1842,10 +1804,10 @@
         // Generate XOOX address
         function generateXOXAddress() {
             if (!userData.xoxAddress) {
-                // Generate a random XOOX address
-                const chars = '0123456789abcdef';
+                // Generate a random XOOX-style address starting with XOOX
+                const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
                 let address = 'XOOX';
-                for (let i = 0; i < 40; i++) {
+                for (let i = 0; i < 32; i++) {
                     address += chars.charAt(Math.floor(Math.random() * chars.length));
                 }
                 
@@ -1857,9 +1819,9 @@
                 alert('XOOX deposit address generated successfully!');
             } else {
                 // Regenerate address
-                const chars = '0123456789abcdef';
+                const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
                 let address = 'XOOX';
-                for (let i = 0; i < 40; i++) {
+                for (let i = 0; i < 32; i++) {
                     address += chars.charAt(Math.floor(Math.random() * chars.length));
                 }
                 
@@ -1891,8 +1853,8 @@
             const address = document.getElementById('withdrawXOXAddress').value;
             const amount = parseFloat(document.getElementById('withdrawXOXAmount').value);
             
-            if (!address || address.length < 10) {
-                alert('Please enter a valid XOOX address');
+            if (!address || !address.startsWith('XOOX') || address.length < 10) {
+                alert('Please enter a valid XOOX address (must start with XOOX)');
                 return;
             }
             
@@ -1910,12 +1872,12 @@
             const fee = 0.001;
             const totalAmount = amount - fee;
             
-            if (confirm(`Withdraw ${amount} XOOX to ${address.substring(0, 10)}...? Network fee: ${fee} XOOX`)) {
+            if (confirm(`Withdraw ${amount} XOOX to ${address.substring(0, 15)}...? Network fee: ${fee} XOOX`)) {
                 userData.xox -= amount;
                 
                 // In a real app, this would trigger a blockchain transaction
                 setTimeout(() => {
-                    alert(`Withdrawal successful! ${totalAmount.toFixed(3)} XOOX sent to ${address.substring(0, 10)}...`);
+                    alert(`Withdrawal successful! ${totalAmount.toFixed(3)} XOOX sent to ${address.substring(0, 15)}...`);
                     updateUserBalance();
                     updateWalletDisplay();
                     
@@ -1951,12 +1913,12 @@
             const fee = 10;
             const totalAmount = amount - fee;
             
-            if (confirm(`Withdraw ₹${amount} to ${accountName}? Processing fee: ₹${fee}`)) {
+            if (confirm(`Withdraw ₹${amount.toLocaleString('en-IN')} to ${accountName}? Processing fee: ₹${fee}`)) {
                 userData.inrBalance -= amount;
                 
                 // Simulate processing delay
                 setTimeout(() => {
-                    alert(`Withdrawal request submitted! ₹${totalAmount} will be transferred to your bank account within 2-4 hours.`);
+                    alert(`Withdrawal request submitted! ₹${totalAmount.toLocaleString('en-IN')} will be transferred to your bank account within 2-4 hours.`);
                     updateUserBalance();
                     updateWalletDisplay();
                     
