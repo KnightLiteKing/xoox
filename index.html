@@ -60,6 +60,18 @@
             width: 100%;
             max-width: 400px;
             border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+        
+        /* Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
         }
         
         .login-header {
@@ -105,12 +117,17 @@
             font-size: 1rem;
             background-color: var(--dark-tertiary);
             color: var(--light);
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
         
         .form-group input:focus {
             outline: none;
             border-color: var(--primary);
+        }
+        
+        .form-group input.error {
+            border-color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.1);
         }
         
         .login-btn {
@@ -130,6 +147,10 @@
         .login-btn:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
         }
         
         .error-message {
@@ -251,6 +272,12 @@
             font-weight: 600;
             border: none;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
         }
         
         /* Navigation */
@@ -1038,7 +1065,7 @@
 <body>
     <!-- Login Screen -->
     <div class="login-container" id="loginContainer">
-        <div class="login-box">
+        <div class="login-box" id="loginBox">
             <div class="login-header">
                 <i class="fas fa-coins"></i>
                 <h1>XOOX Exchange</h1>
@@ -1430,6 +1457,7 @@
         
         // DOM Elements
         const loginContainer = document.getElementById('loginContainer');
+        const loginBox = document.getElementById('loginBox');
         const loadingContainer = document.getElementById('loadingContainer');
         const mainContainer = document.getElementById('mainContainer');
         const userIdInput = document.getElementById('userId');
@@ -1484,9 +1512,6 @@
         
         // Initialize the page
         function initPage() {
-            // Check if user is already logged in (for demo purposes)
-            // In a real app, this would check session/local storage
-            
             // Set up login event listeners
             loginBtn.addEventListener('click', handleLogin);
             userIdInput.addEventListener('keypress', function(e) {
@@ -1499,14 +1524,16 @@
             logoutBtn.addEventListener('click', handleLogout);
         }
         
-        // Handle login
+        // Handle login with shake animation
         function handleLogin() {
             const userId = userIdInput.value.trim();
             const password = passwordInput.value;
             
             if (userId === VALID_USER_ID && password === VALID_PASSWORD) {
-                // Hide error message
+                // Successful login - remove any error states
                 loginError.style.display = 'none';
+                userIdInput.classList.remove('error');
+                passwordInput.classList.remove('error');
                 
                 // Show loading screen
                 loginContainer.style.opacity = '0';
@@ -1518,16 +1545,28 @@
                     simulateLoadingProgress();
                 }, 500);
             } else {
-                // Show error message
+                // Failed login - show error with shake animation
                 loginError.style.display = 'block';
-                userIdInput.style.borderColor = 'var(--danger)';
-                passwordInput.style.borderColor = 'var(--danger)';
+                userIdInput.classList.add('error');
+                passwordInput.classList.add('error');
                 
-                // Reset border color after 2 seconds
+                // Add shake animation
+                loginBox.classList.add('shake');
+                
+                // Remove shake class after animation completes
                 setTimeout(() => {
-                    userIdInput.style.borderColor = 'var(--border)';
-                    passwordInput.style.borderColor = 'var(--border)';
-                }, 2000);
+                    loginBox.classList.remove('shake');
+                }, 500);
+                
+                // Focus on user ID field
+                userIdInput.focus();
+                userIdInput.select();
+                
+                // Remove error states after 3 seconds
+                setTimeout(() => {
+                    userIdInput.classList.remove('error');
+                    passwordInput.classList.remove('error');
+                }, 3000);
             }
         }
         
@@ -1578,6 +1617,8 @@
                 userIdInput.value = '';
                 passwordInput.value = '';
                 loginError.style.display = 'none';
+                userIdInput.classList.remove('error');
+                passwordInput.classList.remove('error');
                 
                 // Show login screen
                 loginContainer.style.display = 'flex';
